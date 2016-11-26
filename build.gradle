@@ -73,7 +73,7 @@ test {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'eu.goodlike.hls.download.HlsDownloadLauncher'
+        attributes 'Main-Class': 'eu.goodlike.hls.download.HlsDownloaderLauncher'
     }
 }
 

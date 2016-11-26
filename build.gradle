@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+    id 'idea'
+
+    // helps me keep up to date with dependencies
+    id "com.github.ben-manes.versions" version "0.13.0"
+
+    // builds fatJar efficiently (much faster than normal)
+    id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // I DID IT! PRAISE THE REPOSITORY!
+    compile 'eu.goodlike:goodlike-utils:0.0.32'
+
+    // used for command line argument parsing
+    compile 'net.sourceforge.argparse4j:argparse4j:0.7.0'
+
+    // used for various utility methods
+    compile 'com.google.guava:guava:20.0'
+    compile 'org.apache.commons:commons-lang3:3.5'
+
+    // used for HTTP requests
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile "com.squareup.okhttp3:okhttp-urlconnection:3.4.2"
+
+    // used for parsing HTML
+    compile 'org.jsoup:jsoup:1.9.2'
+
+    // cache which supports custom eviction timer
+    compile 'org.cache2k:cache2k-api:0.28-BETA'
+    compile 'org.cache2k:cache2k-core:0.28-BETA'
+
+    // used for JSON conversion
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.5'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+
+    // logging
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+
+    // guice
+    compile 'com.google.inject:guice:4.1.0'
+
+    // unit tests
+    testCompile 'junit:junit:4.12'
+    // better assertions
+    testCompile 'org.assertj:assertj-core:3.6.0'
+    // mocking various objects
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+}
+
+group 'eu.goodlike'
+version '0.1'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.encoding = 'UTF-8'
+}
+
+test {
+    exclude '**/*Spike*'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'eu.goodlike.hls.download.HlsDownloadLauncher'
+    }
+}
+
+def buildDirectory = "${project.rootDir}\\copy"
+def buildLocation = new File(buildDirectory)
+
+shadowJar {
+    destinationDir = buildLocation
+    baseName = rootProject.name
+    classifier = null
+    version = project.version
+}
+
+task buildBatchFile << {
+    def batchFileContents = [
+            "@echo off",
+            "java -jar \"%~dp0${rootProject.name}-${project.version}.jar\" %*"
+    ]
+
+    def batchFileName = 'hlsDL.bat'
+    def path = Paths.get(buildDirectory)
+    if (Files.notExists(path))
+        Files.createDirectory(path)
+
+    Files.write(path.resolve(batchFileName), batchFileContents, StandardCharsets.UTF_8,
+            StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
+}
+
+shadowJar.dependsOn buildBatchFile

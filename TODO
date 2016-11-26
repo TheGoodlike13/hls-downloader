@@ -1,0 +1,12 @@
+Implement hls parsing
+
+Implement command line argument parsing
+    Accepts either urls, or files where every line is an URL
+        Ignores duplicates
+        Downloads sequentially (less mess with concurrency)
+    Accepts input file name (optional)
+
+Implement CommandLineRunner (utils?)
+    Run ffmpeg as usual
+
+Implement master playlist choosing

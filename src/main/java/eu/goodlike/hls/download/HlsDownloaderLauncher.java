@@ -9,4 +9,10 @@ public final class HlsDownloaderLauncher {
 
     }
 
+    // PRIVATE
+
+    private HlsDownloaderLauncher() {
+        throw new AssertionError("Do not instantiate this class, it is only used for 'main' method!");
+    }
+
 }

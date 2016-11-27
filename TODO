@@ -4,9 +4,8 @@ Implement command line argument parsing
     Accepts either urls, or files where every line is an URL
         Ignores duplicates
         Downloads sequentially (less mess with concurrency)
-    Accepts input file name (optional)
+        Uses playlist file name for file name
 
-Implement CommandLineRunner (utils?)
-    Run ffmpeg as usual
+Implement ffmpeg over command line runner from utils
 
 Implement master playlist choosing

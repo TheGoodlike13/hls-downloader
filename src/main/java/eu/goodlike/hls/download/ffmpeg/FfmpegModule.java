@@ -14,7 +14,13 @@ public final class FfmpegModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(FfmpegRunner.class)
+                .to(CommandLineFfmpegRunner.class)
+                .in(Singleton.class);
 
+        bind(FfmpegFormatter.class)
+                .to(HlsFfmpegFormatter.class)
+                .in(Singleton.class);
     }
 
     @Provides

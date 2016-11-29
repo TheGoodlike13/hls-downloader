@@ -35,9 +35,11 @@ public final class MediaPlaylist implements DownloadableMediaPlaylist {
     // CONSTRUCTORS
 
     @Inject
-    public MediaPlaylist(String name, String resolution, HttpUrl url,
-                  @Assisted HlsParser hlsParser,
-                  @Assisted MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory) {
+    public MediaPlaylist(@Assisted("name") String name,
+                         @Assisted("resolution") String resolution,
+                         @Assisted HttpUrl url,
+                         HlsParser hlsParser,
+                         MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory) {
         Null.check(url).as("url");
 
         this.name = name;

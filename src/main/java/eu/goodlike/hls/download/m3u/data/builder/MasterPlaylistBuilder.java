@@ -3,7 +3,7 @@ package eu.goodlike.hls.download.m3u.data.builder;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import eu.goodlike.hls.download.m3u.MediaPlaylist;
+import eu.goodlike.hls.download.m3u.DownloadableMediaPlaylist;
 import eu.goodlike.hls.download.m3u.MediaPlaylistFactory;
 import eu.goodlike.hls.download.m3u.data.MasterPlaylistData;
 import eu.goodlike.hls.download.m3u.data.MasterPlaylistDataFactory;
@@ -62,9 +62,9 @@ public final class MasterPlaylistBuilder extends AbstractHlsBuilder {
 
     // CONSTRUCTORS
 
-    @Inject MasterPlaylistBuilder(HttpUrl source,
-                                  @Assisted MasterPlaylistDataFactory masterPlaylistDataFactory,
-                                  @Assisted MediaPlaylistFactory mediaPlaylistFactory) {
+    @Inject MasterPlaylistBuilder(@Assisted HttpUrl source,
+                                  MasterPlaylistDataFactory masterPlaylistDataFactory,
+                                  MediaPlaylistFactory mediaPlaylistFactory) {
         super(source);
         this.masterPlaylistDataFactory = masterPlaylistDataFactory;
         this.mediaPlaylistFactory = mediaPlaylistFactory;
@@ -77,7 +77,7 @@ public final class MasterPlaylistBuilder extends AbstractHlsBuilder {
     private final MasterPlaylistDataFactory masterPlaylistDataFactory;
     private final MediaPlaylistFactory mediaPlaylistFactory;
 
-    private final List<MediaPlaylist> playlists;
+    private final List<DownloadableMediaPlaylist> playlists;
 
     private String nextPlaylistName;
     private String nextPlaylistResolution;
@@ -117,7 +117,7 @@ public final class MasterPlaylistBuilder extends AbstractHlsBuilder {
     }
 
     private void trySetPlaylistUrl(HttpUrl playlistUrl) {
-        MediaPlaylist mediaPlaylist = mediaPlaylistFactory.createMediaPlaylist(nextPlaylistName, nextPlaylistResolution, playlistUrl);
+        DownloadableMediaPlaylist mediaPlaylist = mediaPlaylistFactory.createMediaPlaylist(nextPlaylistName, nextPlaylistResolution, playlistUrl);
         playlists.add(mediaPlaylist);
 
         nextPlaylistName = null;

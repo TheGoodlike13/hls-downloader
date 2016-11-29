@@ -52,9 +52,9 @@ public final class MediaPlaylistData implements PlaylistData {
     // CONSTRUCTORS
 
     @Inject
-    public MediaPlaylistData(String filename, BigDecimal targetDuration, List<MediaPart> mediaParts,
-                             @Assisted FfmpegFormatter ffmpegFormatter,
-                             @Assisted ProcessHookAttacher processHookAttacher) {
+    public MediaPlaylistData(@Assisted String filename, @Assisted BigDecimal targetDuration, @Assisted List<MediaPart> mediaParts,
+                             FfmpegFormatter ffmpegFormatter,
+                             ProcessHookAttacher processHookAttacher) {
         Null.check(filename, targetDuration).as("filename, targetDuration");
         Null.checkList(mediaParts).as("mediaParts");
         if (mediaParts.isEmpty())

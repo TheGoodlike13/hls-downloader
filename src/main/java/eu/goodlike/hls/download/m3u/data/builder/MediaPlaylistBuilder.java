@@ -64,7 +64,8 @@ public final class MediaPlaylistBuilder extends AbstractHlsBuilder {
     // CONSTRUCTORS
 
     @Inject
-    public MediaPlaylistBuilder(HttpUrl source, @Assisted MediaPlaylistDataFactory mediaPlaylistDataFactory) {
+    public MediaPlaylistBuilder(@Assisted HttpUrl source,
+                                MediaPlaylistDataFactory mediaPlaylistDataFactory) {
         super(source);
         this.mediaPlaylistDataFactory = mediaPlaylistDataFactory;
 

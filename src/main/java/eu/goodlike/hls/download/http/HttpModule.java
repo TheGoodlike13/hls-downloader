@@ -21,6 +21,12 @@ public final class HttpModule extends AbstractModule {
 
     @Provides
     @Singleton
+    OkHttpClient okHttpClient() {
+        return new OkHttpClient();
+    }
+
+    @Provides
+    @Singleton
     @Named("default")
     HttpRequestCaller getDefaultHttpRequestCaller(OkHttpClient okHttpClient) {
         return new DefaultHttpRequestCaller(okHttpClient);

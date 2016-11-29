@@ -38,7 +38,8 @@ public final class MasterPlaylistData implements PlaylistData {
     // CONSTRUCTORS
 
     @Inject
-    public MasterPlaylistData(List<DownloadableMediaPlaylist> playlists, @Assisted InputReader userInputReader) {
+    public MasterPlaylistData(@Assisted List<DownloadableMediaPlaylist> playlists,
+                              InputReader userInputReader) {
         Null.checkList(playlists).as("playlists");
         if (playlists.isEmpty())
             throw new IllegalArgumentException("Master playlist must have at least one media playlist");

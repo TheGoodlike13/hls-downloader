@@ -1,5 +1,6 @@
 package eu.goodlike.hls.download.m3u;
 
+import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import okhttp3.HttpUrl;
 
@@ -15,6 +16,8 @@ public interface MediaPlaylistFactory {
      * @return new {@link MediaPlaylist}
      * @throws NullPointerException if url is null
      */
-    MediaPlaylist createMediaPlaylist(String name, String resolution, HttpUrl url);
+    DownloadableMediaPlaylist createMediaPlaylist(@Assisted("name") String name,
+                                                  @Assisted("resolution") String resolution,
+                                                  HttpUrl url);
 
 }

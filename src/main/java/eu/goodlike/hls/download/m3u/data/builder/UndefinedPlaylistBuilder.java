@@ -47,9 +47,9 @@ public final class UndefinedPlaylistBuilder extends AbstractHlsBuilder {
         throw new IllegalStateException("Cannot build playlist without any tag information");
     }
 
-    @Inject UndefinedPlaylistBuilder(HttpUrl source,
-                                     @Assisted MasterPlaylistBuilderFactory masterPlaylistBuilderFactory,
-                                     @Assisted MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory) {
+    @Inject UndefinedPlaylistBuilder(@Assisted HttpUrl source,
+                                     MasterPlaylistBuilderFactory masterPlaylistBuilderFactory,
+                                     MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory) {
         super(source);
         this.masterPlaylistBuilderFactory = masterPlaylistBuilderFactory;
         this.mediaPlaylistBuilderFactory = mediaPlaylistBuilderFactory;

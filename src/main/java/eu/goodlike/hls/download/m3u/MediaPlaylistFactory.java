@@ -7,6 +7,7 @@ import okhttp3.HttpUrl;
 /**
  * Factory for {@link MediaPlaylist}; implementation provided by Guice {@link AssistedInject}
  */
+@SuppressWarnings("BindingAnnotationWithoutInject")
 public interface MediaPlaylistFactory {
 
     /**

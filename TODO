@@ -1,11 +1,10 @@
 Implement hls parsing
+    TEST BUILDER FAILING STATES (non trivial, i.e. wrong data, not wrong methods)
 
 Implement command line argument parsing
     Accepts either urls, or files where every line is an URL
         Ignores duplicates
         Downloads sequentially (less mess with concurrency)
         Uses playlist file name for file name
-
-Implement ffmpeg over command line runner from utils
 
 Implement master playlist choosing

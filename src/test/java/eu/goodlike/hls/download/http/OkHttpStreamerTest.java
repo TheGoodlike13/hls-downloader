@@ -10,9 +10,9 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OkHttpStreamerTest {
@@ -56,7 +56,7 @@ public class OkHttpStreamerTest {
                 .thenReturn(CompletableFuture.completedFuture(response));
 
         InputStream stream = httpStreamer.getStream(URL);
-        InputStream expected = IOUtils.toInputStream(Json.stringFrom(BODY_STRING), Charset.forName("UTF8"));
+        InputStream expected = IOUtils.toInputStream(Json.stringFrom(BODY_STRING), UTF_8);
         assertThat(stream)
                 .hasSameContentAs(expected);
     }

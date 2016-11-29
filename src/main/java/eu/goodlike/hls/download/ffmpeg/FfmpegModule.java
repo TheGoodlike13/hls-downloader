@@ -19,9 +19,14 @@ public final class FfmpegModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ProcessRunner getProcessRunner(@Named("ffmpeg-log-level") Log log) {
+    ProcessHookAttacher processHookAttacher() {
         ExecutorService threadPool = Executors.newCachedThreadPool();
-        ProcessHookAttacher processHookAttacher = new ProcessHookAttacher(threadPool, threadPool);
+        return new ProcessHookAttacher(threadPool, threadPool);
+    }
+
+    @Provides
+    @Singleton
+    ProcessRunner getProcessRunner(@Named("ffmpeg-log-level") Log log, ProcessHookAttacher processHookAttacher) {
         return new BoundProcessRunner(new LoggingProcessRunner(new CommandLineRunner(), log, processHookAttacher));
     }
 

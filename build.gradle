@@ -69,6 +69,19 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", "src/gen/java"]
+        }
+    }
+    test {
+        java {
+            srcDirs = ["src/test/java", "src/test/spike"]
+        }
+    }
+}
+
 test {
     exclude '**/*Spike*'
 }

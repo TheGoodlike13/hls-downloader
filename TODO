@@ -1,5 +1,2 @@
 Implement command line argument parsing
     Accepts either urls, or files where every line is an URL
-        Ignores duplicates
-        Downloads sequentially (less mess with concurrency)
-        Uses playlist file name for file name

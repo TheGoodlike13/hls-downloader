@@ -1,5 +1,4 @@
 Implement hls parsing
-    TEST BUILDER FAILING STATES (non trivial, i.e. wrong data, not wrong methods)
 
 Implement command line argument parsing
     Accepts either urls, or files where every line is an URL
@@ -8,3 +7,5 @@ Implement command line argument parsing
         Uses playlist file name for file name
 
 Implement master playlist choosing
+
+Replace System.out with logging (maybe)

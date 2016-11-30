@@ -10,4 +10,4 @@ Likely doesn't support everything, but should work for most simple cases
 1. Install ffmpeg: https://ffmpeg.org/
 2. Put this code somewhere
 3. Run "gradlew shadowJar" in that folder
-4. Take all the files from "copy" folder and run "hlsDL <insert_url_of_playlist_here>"
+4. Take all the files from "copy" folder and run "hlsDL {insert_url_of_playlist_here}"

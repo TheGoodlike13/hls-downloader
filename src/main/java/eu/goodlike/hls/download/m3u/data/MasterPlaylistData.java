@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import static eu.goodlike.validate.CommonValidators.NOT_BLANK;
 import static eu.goodlike.validate.Validate.aPrimInt;
-import static eu.goodlike.validate.Validate.string;
 
 /**
  * Defines how master playlist should handle its own data
@@ -22,17 +22,7 @@ public final class MasterPlaylistData implements PlaylistData {
 
     @Override
     public CompletableFuture<?> handlePlaylistData() {
-        printPlaylists();
-
-        StringValidator positionValidator = string().not().isBlank().isInt(aPrimInt().isBetween(1, playlists.size()));
-        String chosenPosition = userInputReader.readLine();
-        while (positionValidator.isInvalid(chosenPosition)) {
-            System.out.println(System.lineSeparator() + "Invalid position: " + chosenPosition + System.lineSeparator());
-            printPlaylists();
-            chosenPosition = userInputReader.readLine();
-        }
-
-        return playlists.get(Integer.valueOf(chosenPosition) - 1).download();
+        return choosePlaylist().download();
     }
 
     // CONSTRUCTORS
@@ -54,6 +44,26 @@ public final class MasterPlaylistData implements PlaylistData {
     private final List<DownloadableMediaPlaylist> playlists;
 
     private final InputReader userInputReader;
+
+    private DownloadableMediaPlaylist choosePlaylist() {
+        return playlists.size() < 2
+                ? playlists.get(0)
+                : letUserChoosePlaylist();
+    }
+
+    private DownloadableMediaPlaylist letUserChoosePlaylist() {
+        printPlaylists();
+
+        StringValidator positionValidator = NOT_BLANK.isInt(aPrimInt().isBetween(1, playlists.size()));
+        String chosenPosition = userInputReader.readLine();
+        while (positionValidator.isInvalid(chosenPosition)) {
+            System.out.println(System.lineSeparator() + "Invalid position: " + chosenPosition + System.lineSeparator());
+            printPlaylists();
+            chosenPosition = userInputReader.readLine();
+        }
+
+        return playlists.get(Integer.valueOf(chosenPosition) - 1);
+    }
 
     private void printPlaylists() {
         System.out.println("Available playlists:" + System.lineSeparator());

@@ -58,3 +58,6 @@ gradle.properties
 
 # Spikes
 src/test/spike
+
+# Build files
+/copy

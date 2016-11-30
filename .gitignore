@@ -59,5 +59,8 @@ gradle.properties
 # Spikes
 src/test/spike
 
-# Build files
-/copy
+# Misc
+
+*.mp4
+*.m3u8
+*.jar

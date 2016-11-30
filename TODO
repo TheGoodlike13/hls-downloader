@@ -1,2 +1,4 @@
-Implement command line argument parsing
-    Accepts either urls, or files where every line is an URL
+Add rename feature
+    Choose playlist: 5 <NAME HERE>
+
+Setup debug VS info logging (import from properties file)

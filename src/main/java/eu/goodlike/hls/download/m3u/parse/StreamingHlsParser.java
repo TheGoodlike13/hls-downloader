@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import static eu.goodlike.hls.download.m3u.M3U8Defaults.*;
+import static eu.goodlike.validate.CommonValidators.NOT_BLANK;
 
 /**
  * Gets an {@link InputStream} from the {@link HttpUrl}, then parses it using a scanner
@@ -66,7 +67,7 @@ public final class StreamingHlsParser implements HlsParser {
     private Optional<HlsTag> parseRaw(String tag) {
         return Optionals.lazyFirstNotEmpty(
                 () -> HttpUrls.parse(tag).map(UrlTag::new),
-                () -> Optional.of(new StringTag(tag))
+                () -> Optional.of(tag).filter(NOT_BLANK).map(StringTag::new)
         );
     }
 

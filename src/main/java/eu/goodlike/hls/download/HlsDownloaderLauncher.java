@@ -19,6 +19,8 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import okhttp3.HttpUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,16 +84,19 @@ public final class HlsDownloaderLauncher {
         List<String> urls = namespace.getList(urlKey);
 
         List<CompletableFuture<?>> handlers = new ArrayList<>();
-        argResolver.getAllUrls(urls).stream()
-                .map(this::getHandler)
-                .forEach(handlers::add);
-
-        CompletableFuture<?>[] handlerArray = handlers.toArray(new CompletableFuture<?>[handlers.size()]);
-        CompletableFuture.allOf(handlerArray)
-                .whenComplete((any, ex) -> deployTheClosener());
+        try {
+            argResolver.getAllUrls(urls).stream()
+                    .map(this::getHandler)
+                    .forEach(handlers::add);
+        } finally {
+            CompletableFuture<?>[] handlerArray = handlers.toArray(new CompletableFuture<?>[handlers.size()]);
+            CompletableFuture.allOf(handlerArray)
+                    .whenComplete((any, ex) -> deployTheClosener());
+        }
     }
 
     private CompletableFuture<?> getHandler(HttpUrl url) {
+        LOG.info("Downloading from url: {}", url);
         HlsBuilder builder = undefinedPlaylistBuilderFactory.createUndefinedPlaylistBuilder(url);
         hlsParser.parse(url).forEach(hlsTag -> hlsTag.extractDataInto(builder));
         return builder.build().handlePlaylistData();
@@ -104,5 +109,7 @@ public final class HlsDownloaderLauncher {
             throw new RuntimeException(e);
         }
     }
+
+    private static final Logger LOG = LoggerFactory.getLogger(HlsDownloaderLauncher.class);
 
 }

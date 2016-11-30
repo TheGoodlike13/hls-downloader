@@ -52,12 +52,15 @@ dependencies {
 
     // guice
     compile 'com.google.inject:guice:4.1.0'
+
+    // guice assisted inject
     compile 'com.google.inject.extensions:guice-assistedinject:4.1.0'
+    compile 'com.google.code.findbugs:jsr305:3.0.1'
 
     // unit tests
     testCompile 'junit:junit:4.12'
     // better assertions
-    testCompile 'org.assertj:assertj-core:3.6.0'
+    testCompile 'org.assertj:assertj-core:3.6.1'
     // mocking various objects
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
 }

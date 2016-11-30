@@ -9,6 +9,7 @@ import eu.goodlike.neat.Null;
 import eu.goodlike.str.Str;
 import okhttp3.HttpUrl;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -35,8 +36,8 @@ public final class MediaPlaylist implements DownloadableMediaPlaylist {
     // CONSTRUCTORS
 
     @Inject
-    public MediaPlaylist(@Assisted("name") String name,
-                         @Assisted("resolution") String resolution,
+    public MediaPlaylist(@Assisted("name") @Nullable String name,
+                         @Assisted("resolution") @Nullable String resolution,
                          @Assisted HttpUrl url,
                          HlsParser hlsParser,
                          MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory) {

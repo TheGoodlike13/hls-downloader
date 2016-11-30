@@ -14,37 +14,37 @@ public final class UndefinedPlaylistBuilder extends AbstractHlsBuilder {
 
     @Override
     public HlsBuilder setNextPlaylistName(String nextPlaylistName) {
-        return masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source).setNextPlaylistName(nextPlaylistName);
+        return getActualBuilderInitializeMasterIfNeeded().setNextPlaylistName(nextPlaylistName);
     }
 
     @Override
     public HlsBuilder setNextPlaylistResolution(String nextPlaylistResolution) {
-        return masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source).setNextPlaylistResolution(nextPlaylistResolution);
+        return getActualBuilderInitializeMasterIfNeeded().setNextPlaylistResolution(nextPlaylistResolution);
     }
 
     @Override
     public HlsBuilder setNextUrl(HttpUrl url) {
-        return masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source).setNextUrl(url);
+        return getActualBuilderInitializeMasterIfNeeded().setNextUrl(url);
     }
 
     @Override
     public HlsBuilder setNextString(String string) {
-        return masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source).setNextString(string);
+        return getActualBuilderInitializeMasterIfNeeded().setNextString(string);
     }
 
     @Override
     public HlsBuilder setTargetDuration(BigDecimal targetDuration) {
-        return mediaPlaylistBuilderFactory.createMediaPlaylistBuilder(source).setTargetDuration(targetDuration);
+        return getActualBuilderInitializeMediaIfNeeded().setTargetDuration(targetDuration);
     }
 
     @Override
     public HlsBuilder setNextPartDuration(BigDecimal nextPartDuration) {
-        throw new IllegalStateException("Invalid media playlist: no target duration found");
+        return getActualBuilderInitializeMediaIfNeeded().setNextPartDuration(nextPartDuration);
     }
 
     @Override
     public PlaylistData build() {
-        throw new IllegalStateException("Cannot build playlist without any tag information");
+        return getActualBuilder().build();
     }
 
     @Inject UndefinedPlaylistBuilder(@Assisted HttpUrl source,
@@ -59,5 +59,28 @@ public final class UndefinedPlaylistBuilder extends AbstractHlsBuilder {
 
     private final MasterPlaylistBuilderFactory masterPlaylistBuilderFactory;
     private final MediaPlaylistBuilderFactory mediaPlaylistBuilderFactory;
+
+    private HlsBuilder actualBuilder;
+
+    private HlsBuilder getActualBuilder() {
+        if (actualBuilder == null)
+            throw new IllegalStateException("Invalid playlist: no tags found");
+
+        return actualBuilder;
+    }
+
+    private HlsBuilder getActualBuilderInitializeMasterIfNeeded() {
+        if (actualBuilder == null)
+            actualBuilder = masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source);
+
+        return actualBuilder;
+    }
+
+    private HlsBuilder getActualBuilderInitializeMediaIfNeeded() {
+        if (actualBuilder == null)
+            actualBuilder = mediaPlaylistBuilderFactory.createMediaPlaylistBuilder(source);
+
+        return actualBuilder;
+    }
 
 }

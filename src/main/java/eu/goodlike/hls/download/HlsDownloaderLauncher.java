@@ -25,8 +25,9 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import okhttp3.HttpUrl;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -34,7 +35,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class HlsDownloaderLauncher {
 
-    public static void main(String... args) {
+    public static void main(String... args) throws Exception {
         Injector injector = Guice.createInjector(
                 new ArgsModule(),
                 new ConfigurationsModule(),
@@ -79,7 +80,7 @@ public final class HlsDownloaderLauncher {
     private final HlsParser hlsParser;
     private final TheClosener theClosener;
 
-    private void run(String... args) {
+    private void run(String... args) throws Exception {
         Namespace namespace;
         try {
             namespace = argumentParser.parseArgs(args);
@@ -90,18 +91,18 @@ public final class HlsDownloaderLauncher {
 
         List<String> urls = namespace.getList(urlKey);
 
-        List<CompletableFuture<?>> handlers = new ArrayList<>();
         try {
-            argResolver.getAllUrls(urls).stream()
-                    .map(this::getHandler)
-                    .forEach(handlers::add);
+            Set<HttpUrl> allUrls = argResolver.getAllUrls(urls);
+            if (allUrls.isEmpty())
+                LOG.info("No playlists found! Check your args: " + Arrays.toString(args));
+
+            for (HttpUrl url : allUrls)
+                getHandler(url).join();
         } catch (Throwable t) {
             LOG.info("Error {}: {}", t.getClass().getSimpleName(), t.getMessage());
             LOG.debug("Detailed error output", t);
         } finally {
-            CompletableFuture<?>[] handlerArray = handlers.toArray(new CompletableFuture<?>[handlers.size()]);
-            CompletableFuture.allOf(handlerArray)
-                    .whenComplete((any, ex) -> deployTheClosener());
+            theClosener.close();
         }
     }
 
@@ -110,14 +111,6 @@ public final class HlsDownloaderLauncher {
         HlsBuilder builder = undefinedPlaylistBuilderFactory.createUndefinedPlaylistBuilder(url);
         hlsParser.parse(url).forEach(hlsTag -> hlsTag.extractDataInto(builder));
         return builder.build().handlePlaylistData();
-    }
-
-    private void deployTheClosener() {
-        try {
-            theClosener.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(HlsDownloaderLauncher.class);

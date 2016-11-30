@@ -4,11 +4,14 @@ import com.google.inject.Inject;
 import eu.goodlike.cmd.ProcessRunner;
 import eu.goodlike.libraries.okhttp.HttpClients;
 import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class TheClosener implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        LOG.info("Powering down...");
         HttpClients.close(okHttpClient);
         processRunner.close();
     }
@@ -24,5 +27,7 @@ public final class TheClosener implements AutoCloseable {
 
     private final OkHttpClient okHttpClient;
     private final ProcessRunner processRunner;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TheClosener.class);
 
 }

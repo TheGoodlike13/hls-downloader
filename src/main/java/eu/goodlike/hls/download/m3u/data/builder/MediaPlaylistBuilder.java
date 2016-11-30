@@ -9,6 +9,8 @@ import eu.goodlike.hls.download.m3u.data.MediaPlaylistDataFactory;
 import eu.goodlike.neat.Null;
 import eu.goodlike.validate.impl.BigDecimalValidator;
 import okhttp3.HttpUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -135,10 +137,13 @@ public final class MediaPlaylistBuilder extends AbstractHlsBuilder {
         if (mediaParts.isEmpty())
             throw new IllegalStateException("Invalid media playlist: no playlist parts");
 
+        LOG.info("Building media playlist...");
         return mediaPlaylistDataFactory.createMediaPlaylistData(
                 getSourceFilename(), playlistTargetDuration, ImmutableList.copyOf(mediaParts));
     }
 
     private static final BigDecimalValidator IS_POSITIVE = bigDecimal().isPositive();
+
+    private static final Logger LOG = LoggerFactory.getLogger(MediaPlaylistBuilder.class);
 
 }

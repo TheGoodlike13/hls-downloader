@@ -9,6 +9,8 @@ import eu.goodlike.hls.download.m3u.data.MasterPlaylistData;
 import eu.goodlike.hls.download.m3u.data.MasterPlaylistDataFactory;
 import eu.goodlike.neat.Null;
 import okhttp3.HttpUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -134,7 +136,10 @@ public final class MasterPlaylistBuilder extends AbstractHlsBuilder {
         if (playlists.isEmpty())
             throw new IllegalStateException("Invalid master playlist: no media playlists found");
 
+        LOG.info("Building master playlist...");
         return masterPlaylistDataFactory.createMasterPlaylistData(ImmutableList.copyOf(playlists));
     }
+
+    private static final Logger LOG = LoggerFactory.getLogger(MasterPlaylistBuilder.class);
 
 }

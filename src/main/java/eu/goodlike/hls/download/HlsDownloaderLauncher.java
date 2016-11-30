@@ -88,6 +88,8 @@ public final class HlsDownloaderLauncher {
             argResolver.getAllUrls(urls).stream()
                     .map(this::getHandler)
                     .forEach(handlers::add);
+        } catch (Throwable t) {
+            LOG.info("An error occurred: {}", t.getMessage());
         } finally {
             CompletableFuture<?>[] handlerArray = handlers.toArray(new CompletableFuture<?>[handlers.size()]);
             CompletableFuture.allOf(handlerArray)

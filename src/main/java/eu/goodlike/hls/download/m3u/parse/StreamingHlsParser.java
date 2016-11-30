@@ -97,10 +97,24 @@ public final class StreamingHlsParser implements HlsParser {
         if (nameIndex < 0)
             return Optional.empty();
 
-        int startIndex = nameIndex + attribute.length() + 1;
-        int endIndex = tag.indexOf('"', startIndex);
-        if (startIndex > tag.length() || endIndex < 0)
-            throw new IllegalStateException(Str.format("Could not parse attribute '{}' from tag: {}", attribute, tag));
+        int startIndex = nameIndex + attribute.length();
+        if (startIndex > tag.length())
+            throw new IllegalStateException(Str.format("Missing value for attribute '{}' from tag: {}", attribute, tag));
+
+        boolean quotedValue = tag.charAt(startIndex) == '"';
+        if (quotedValue)
+            startIndex++;
+
+        int endIndex = quotedValue
+                ? tag.indexOf('"', startIndex)
+                : tag.indexOf(',', startIndex);
+
+        if (endIndex < 0) {
+            if (quotedValue)
+                throw new IllegalStateException(Str.format("String quotes not closed in attribute '{}' from tag: {}", attribute, tag));
+
+            endIndex = tag.length();
+        }
 
         return Optional.of(tag.substring(startIndex, endIndex));
     }

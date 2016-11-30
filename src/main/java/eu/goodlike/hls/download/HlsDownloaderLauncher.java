@@ -1,9 +1,13 @@
 package eu.goodlike.hls.download;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import eu.goodlike.hls.download.args.ArgResolver;
 import eu.goodlike.hls.download.args.ArgsModule;
 import eu.goodlike.hls.download.ffmpeg.FfmpegModule;
@@ -19,7 +23,6 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import okhttp3.HttpUrl;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
@@ -42,6 +45,10 @@ public final class HlsDownloaderLauncher {
                 new HttpModule(),
                 new FfmpegModule()
         );
+
+        Level logLevel = injector.getInstance(Key.get(Level.class, Names.named("app-log-level")));
+        Logger logger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+        logger.setLevel(logLevel);
 
         HlsDownloaderLauncher launcher = injector.getInstance(HlsDownloaderLauncher.class);
         launcher.run(args);
@@ -89,7 +96,8 @@ public final class HlsDownloaderLauncher {
                     .map(this::getHandler)
                     .forEach(handlers::add);
         } catch (Throwable t) {
-            LOG.info("An error occurred: {}", t.getMessage());
+            LOG.info("Error {}: {}", t.getClass().getSimpleName(), t.getMessage());
+            LOG.debug("Detailed error output", t);
         } finally {
             CompletableFuture<?>[] handlerArray = handlers.toArray(new CompletableFuture<?>[handlers.size()]);
             CompletableFuture.allOf(handlerArray)
@@ -112,6 +120,6 @@ public final class HlsDownloaderLauncher {
         }
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(HlsDownloaderLauncher.class);
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(HlsDownloaderLauncher.class);
 
 }

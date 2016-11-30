@@ -3,7 +3,6 @@ package eu.goodlike.hls.download.ffmpeg;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import eu.goodlike.cmd.*;
 import eu.goodlike.libraries.slf4j.Log;
 
@@ -32,8 +31,8 @@ public final class FfmpegModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ProcessRunner getProcessRunner(@Named("ffmpeg-log-level") Log log, ProcessHookAttacher processHookAttacher) {
-        return new BoundProcessRunner(new LoggingProcessRunner(new CommandLineRunner(), log, processHookAttacher));
+    ProcessRunner getProcessRunner(ProcessHookAttacher processHookAttacher) {
+        return new BoundProcessRunner(new LoggingProcessRunner(new CommandLineRunner(), Log.INFO, processHookAttacher));
     }
 
 }

@@ -28,6 +28,11 @@ public final class UndefinedPlaylistBuilder extends AbstractHlsBuilder {
     }
 
     @Override
+    public HlsBuilder setNextString(String string) {
+        return masterPlaylistBuilderFactory.createMasterPlaylistBuilder(source).setNextString(string);
+    }
+
+    @Override
     public HlsBuilder setTargetDuration(BigDecimal targetDuration) {
         return mediaPlaylistBuilderFactory.createMediaPlaylistBuilder(source).setTargetDuration(targetDuration);
     }
@@ -35,11 +40,6 @@ public final class UndefinedPlaylistBuilder extends AbstractHlsBuilder {
     @Override
     public HlsBuilder setNextPartDuration(BigDecimal nextPartDuration) {
         throw new IllegalStateException("Invalid media playlist: no target duration found");
-    }
-
-    @Override
-    public HlsBuilder setNextString(String string) {
-        throw new IllegalStateException("Invalid media playlist: no target duration found, filename before duration");
     }
 
     @Override

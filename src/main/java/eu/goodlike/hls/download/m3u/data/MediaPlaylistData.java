@@ -41,7 +41,7 @@ public final class MediaPlaylistData implements PlaylistData {
             return Futures.failedFuture(e);
         }
 
-        Process process = ffmpegFormatter.runFfmpeg(actualPlaylistName, setToMp4(actualPlaylistName))
+        Process process = ffmpegFormatter.runFfmpeg(setToMp4(actualPlaylistName), actualPlaylistName)
                 .orElseThrow(() -> new IllegalStateException("Failed to spawn ffmpeg process"));
 
         CompletableFuture<Process> processCompletionFuture = new CompletableFuture<>();

@@ -12,7 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class HlsFfmpegFormatterTest {
 
-    private static final String INPUT_FILE = "NewHLS-1080P.m3u8";
+    private static final String VIDEO_INPUT_FILE = "NewHLS-1080P.m3u8";
+    private static final String AUDIO_INPUT_FILE = "NewHLS-1080P-audio.m3u8";
     private static final String OUTPUT_FILE = "NewHLS-1080P.mp4";
 
     private FfmpegRunner ffmpegRunner;
@@ -28,13 +29,13 @@ public class HlsFfmpegFormatterTest {
     public void ffmpegParamsAreCorrectlyFormatted() {
         Process process = Mockito.mock(Process.class);
         List<String> expectedInput = ImmutableList.of(
-            "-i", INPUT_FILE, "-bsf:a", "aac_adtstoasc", "-c", "copy", OUTPUT_FILE
+                "-i", VIDEO_INPUT_FILE, "-i", AUDIO_INPUT_FILE, "-bsf:a", "aac_adtstoasc", "-c", "copy", OUTPUT_FILE
         );
 
         Mockito.when(ffmpegRunner.runFfmpeg(expectedInput))
                 .thenReturn(Optional.of(process));
 
-        assertThat(ffmpegFormatter.runFfmpeg(INPUT_FILE, OUTPUT_FILE))
+        assertThat(ffmpegFormatter.runFfmpeg(OUTPUT_FILE, VIDEO_INPUT_FILE, AUDIO_INPUT_FILE))
                 .contains(process);
     }
 

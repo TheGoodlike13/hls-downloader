@@ -40,6 +40,8 @@ public class MediaPlaylistDataTest {
 
     @After
     public void tearDown() throws Exception {
+        processHookAttacher.close();
+
         Path path = Paths.get(FILENAME);
         if (Files.exists(path))
             Files.delete(path);
@@ -50,13 +52,13 @@ public class MediaPlaylistDataTest {
         Process process = Mockito.mock(Process.class);
         Mockito.when(process.waitFor()).thenReturn(0);
 
-        Mockito.when(ffmpegFormatter.runFfmpeg(FILENAME, "stream.mp4"))
+        Mockito.when(ffmpegFormatter.runFfmpeg("stream.mp4", FILENAME))
                 .thenReturn(Optional.of(process));
 
         CompletableFuture<?> doneHandlingMediaPlaylist = mediaPlaylistData.handlePlaylistData();
         doneHandlingMediaPlaylist.join();
 
-        Mockito.verify(ffmpegFormatter).runFfmpeg(FILENAME, "stream.mp4");
+        Mockito.verify(ffmpegFormatter).runFfmpeg("stream.mp4", FILENAME);
     }
 
 }

@@ -1,5 +1,6 @@
 package eu.goodlike.hls.download.m3u.data.builder;
 
+import eu.goodlike.hls.download.m3u.data.PlaylistData;
 import eu.goodlike.libraries.okhttp.HttpUrls;
 import eu.goodlike.neat.Null;
 import okhttp3.HttpUrl;
@@ -7,7 +8,7 @@ import okhttp3.HttpUrl;
 /**
  * Base class for {@link HlsBuilder}; only used for playlist data builders which need source location info
  */
-public abstract class AbstractHlsBuilder implements HlsBuilder {
+public abstract class AbstractHlsBuilder<PlaylistType extends PlaylistData> implements HlsBuilder<PlaylistType> {
 
     // CONSTRUCTORS
 

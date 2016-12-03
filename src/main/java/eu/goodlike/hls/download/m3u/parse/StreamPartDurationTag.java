@@ -15,7 +15,7 @@ import static eu.goodlike.hls.download.m3u.M3U8Defaults.M3U8_MEDIA_PART_DURATION
 public final class StreamPartDurationTag implements HlsTag {
 
     @Override
-    public void extractDataInto(HlsBuilder builder) {
+    public void extractDataInto(HlsBuilder<?> builder) {
         Null.check(builder).as("builder");
         builder.setNextPartDuration(duration);
     }

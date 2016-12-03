@@ -3,14 +3,12 @@ package eu.goodlike.hls.download.m3u.data;
 import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import eu.goodlike.cmd.ProcessHookAttacher;
 import eu.goodlike.functional.Futures;
-import eu.goodlike.hls.download.ffmpeg.FfmpegFormatter;
+import eu.goodlike.hls.download.ffmpeg.FfmpegProcessor;
 import eu.goodlike.hls.download.m3u.FileMediaPlaylistWriter;
 import eu.goodlike.hls.download.m3u.MediaPlaylistWriter;
 import eu.goodlike.io.FileUtils;
 import eu.goodlike.neat.Null;
-import org.apache.commons.io.FilenameUtils;
 
 import java.math.BigDecimal;
 import java.nio.file.Path;
@@ -26,6 +24,11 @@ public final class MediaPlaylistData implements PlaylistData {
 
     @Override
     public CompletableFuture<?> handlePlaylistData() {
+        return writePlaylistToFile()
+                .thenApply(actualPlaylistName -> ffmpegProcessor.processFfmpeg(actualPlaylistName, actualPlaylistName));
+    }
+
+    public CompletableFuture<String> writePlaylistToFile() {
         String actualPlaylistName = FileUtils.findAvailableName(filename);
         Path path = Paths.get(actualPlaylistName);
         try (MediaPlaylistWriter<Path> mediaPlaylistWriter = new FileMediaPlaylistWriter(path)) {
@@ -41,20 +44,14 @@ public final class MediaPlaylistData implements PlaylistData {
             return Futures.failedFuture(e);
         }
 
-        Process process = ffmpegFormatter.runFfmpeg(setToMp4(actualPlaylistName), actualPlaylistName)
-                .orElseThrow(() -> new IllegalStateException("Failed to spawn ffmpeg process"));
-
-        CompletableFuture<Process> processCompletionFuture = new CompletableFuture<>();
-        processHookAttacher.attachAfter(process, processCompletionFuture::complete);
-        return processCompletionFuture;
+        return CompletableFuture.completedFuture(actualPlaylistName);
     }
 
     // CONSTRUCTORS
 
     @Inject
     public MediaPlaylistData(@Assisted String filename, @Assisted BigDecimal targetDuration, @Assisted List<MediaPart> mediaParts,
-                             FfmpegFormatter ffmpegFormatter,
-                             ProcessHookAttacher processHookAttacher) {
+                             FfmpegProcessor ffmpegProcessor) {
         Null.check(filename, targetDuration).as("filename, targetDuration");
         Null.checkList(mediaParts).as("mediaParts");
         if (mediaParts.isEmpty())
@@ -64,8 +61,7 @@ public final class MediaPlaylistData implements PlaylistData {
         this.targetDuration = targetDuration;
         this.mediaParts = mediaParts;
 
-        this.ffmpegFormatter = ffmpegFormatter;
-        this.processHookAttacher = processHookAttacher;
+        this.ffmpegProcessor = ffmpegProcessor;
     }
 
     // PRIVATE
@@ -74,12 +70,7 @@ public final class MediaPlaylistData implements PlaylistData {
     private final BigDecimal targetDuration;
     private final List<MediaPart> mediaParts;
 
-    private final FfmpegFormatter ffmpegFormatter;
-    private final ProcessHookAttacher processHookAttacher;
-
-    private String setToMp4(String filename) {
-        return FilenameUtils.getBaseName(filename) + ".mp4";
-    }
+    private final FfmpegProcessor ffmpegProcessor;
 
     // OBJECT OVERRIDES
 

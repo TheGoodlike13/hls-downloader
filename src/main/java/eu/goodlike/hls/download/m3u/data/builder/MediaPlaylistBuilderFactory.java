@@ -1,6 +1,7 @@
 package eu.goodlike.hls.download.m3u.data.builder;
 
 import com.google.inject.assistedinject.AssistedInject;
+import eu.goodlike.hls.download.m3u.data.MediaPlaylistData;
 import okhttp3.HttpUrl;
 
 /**
@@ -13,6 +14,6 @@ public interface MediaPlaylistBuilderFactory {
      * @return new {@link MediaPlaylistBuilder}
      * @throws NullPointerException if source is null
      */
-    HlsBuilder createMediaPlaylistBuilder(HttpUrl source);
+    HlsBuilder<MediaPlaylistData> createMediaPlaylistBuilder(HttpUrl source);
 
 }

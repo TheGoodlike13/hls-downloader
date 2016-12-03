@@ -16,6 +16,6 @@ public interface HlsTag {
      * @param builder builder to given data to
      * @throws NullPointerException if builder is null
      */
-    void extractDataInto(HlsBuilder builder);
+    void extractDataInto(HlsBuilder<?> builder);
 
 }

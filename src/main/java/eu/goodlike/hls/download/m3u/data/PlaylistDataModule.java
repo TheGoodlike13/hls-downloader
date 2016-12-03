@@ -14,6 +14,8 @@ public final class PlaylistDataModule extends AbstractModule {
         install(new FactoryModuleBuilder().build(MasterPlaylistDataFactory.class));
 
         install(new FactoryModuleBuilder().build(MediaPlaylistDataFactory.class));
+
+        install(new FactoryModuleBuilder().build(MultiMediaPlaylistDataFactory.class));
     }
 
     @Provides

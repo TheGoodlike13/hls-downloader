@@ -26,9 +26,9 @@ public class StreamingHlsParserTest {
 
     @Test
     public void parsingOfMasterPlaylist() {
-        MediaTag mediaTag = new MediaTag("source");
-        StreamInfoTag streamInfoTag = new StreamInfoTag("1920x1080");
-        UrlTag urlTag = new UrlTag(URL);
+        MediaTag mediaTag = new MediaTag(null, "source", null);
+        StreamInfoTag streamInfoTag = new StreamInfoTag("1920x1080", null);
+        RawString urlTag = new RawString(URL.toString());
 
         String masterPlaylist = Str.of()
                 .and(mediaTag, System.lineSeparator())
@@ -46,7 +46,7 @@ public class StreamingHlsParserTest {
     public void parsingOfMediaPlaylist() {
         TargetDurationTag targetDurationTag = new TargetDurationTag(BigDecimal.TEN);
         StreamPartDurationTag streamPartDurationTag = new StreamPartDurationTag(BigDecimal.ONE);
-        UrlTag urlTag = new UrlTag(URL);
+        RawString urlTag = new RawString(URL.toString());
 
         String mediaPlaylist = Str.of()
                 .and(targetDurationTag, System.lineSeparator())

@@ -2,9 +2,7 @@ package eu.goodlike.hls.download.m3u.parse;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import eu.goodlike.functional.Optionals;
 import eu.goodlike.hls.download.http.HttpStreamer;
-import eu.goodlike.libraries.okhttp.HttpUrls;
 import eu.goodlike.str.Str;
 import okhttp3.HttpUrl;
 
@@ -65,18 +63,24 @@ public final class StreamingHlsParser implements HlsParser {
     }
 
     private Optional<HlsTag> parseRaw(String tag) {
-        return Optionals.lazyFirstNotEmpty(
-                () -> HttpUrls.parse(tag).map(UrlTag::new),
-                () -> Optional.of(tag).filter(NOT_BLANK).map(StringTag::new)
-        );
+        return Optional.of(tag).filter(NOT_BLANK).map(RawString::new);
     }
 
     private Optional<HlsTag> parseMediaTag(String tag) {
-        return extractValue(tag, M3U8_MASTER_MEDIA_NAME_ATTRIBUTE).map(MediaTag::new);
+        String groupId = extractValueOrNull(tag, M3U8_MASTER_MEDIA_GROUP_ID_ATTRIBUTE);
+        String name = extractValueOrNull(tag, M3U8_MASTER_MEDIA_NAME_ATTRIBUTE);
+        String uri = extractValueOrNull(tag, M3U8_MASTER_MEDIA_URI_ATTRIBUTE);
+        return groupId == null && name == null && uri == null
+                ? Optional.empty()
+                : Optional.of(new MediaTag(groupId, name, uri));
     }
 
     private Optional<HlsTag> parseStreamInfoTag(String tag) {
-        return extractValue(tag, M3U8_MASTER_STREAM_INFO_RESOLUTION_ATTRIBUTE).map(StreamInfoTag::new);
+        String resolution = extractValueOrNull(tag, M3U8_MASTER_STREAM_INFO_RESOLUTION_ATTRIBUTE);
+        String audioStreamId = extractValueOrNull(tag, M3U8_MASTER_STREAM_INFO_AUDIO_ATTRIBUTE);
+        return resolution == null && audioStreamId == null
+                ? Optional.empty()
+                : Optional.of(new StreamInfoTag(resolution, audioStreamId));
     }
 
     private Optional<HlsTag> parseTargetDurationTag(String tag) {
@@ -118,6 +122,10 @@ public final class StreamingHlsParser implements HlsParser {
         }
 
         return Optional.of(tag.substring(startIndex, endIndex));
+    }
+
+    private String extractValueOrNull(String tag, String attribute) {
+        return extractValue(tag, attribute).orElse(null);
     }
 
 }

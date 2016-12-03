@@ -7,9 +7,9 @@ public final class HlsModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder()
-                .implement(DownloadableMediaPlaylist.class, MediaPlaylist.class)
-                .build(MediaPlaylistFactory.class));
+        install(new FactoryModuleBuilder().build(MediaPlaylistFactory.class));
+
+        install(new FactoryModuleBuilder().build(MultiMediaPlaylistFactory.class));
     }
 
 }

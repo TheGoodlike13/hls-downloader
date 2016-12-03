@@ -17,8 +17,8 @@ public interface MediaPlaylistFactory {
      * @return new {@link MediaPlaylist}
      * @throws NullPointerException if url is null
      */
-    DownloadableMediaPlaylist createMediaPlaylist(@Assisted("name") String name,
-                                                  @Assisted("resolution") String resolution,
-                                                  HttpUrl url);
+    MediaPlaylist createMediaPlaylist(@Assisted("name") String name,
+                                      @Assisted("resolution") String resolution,
+                                      HttpUrl url);
 
 }

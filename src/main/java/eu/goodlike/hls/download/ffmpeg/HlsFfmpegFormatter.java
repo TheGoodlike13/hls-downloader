@@ -14,10 +14,11 @@ import java.util.stream.Stream;
 public final class HlsFfmpegFormatter implements FfmpegFormatter {
 
     @Override
-    public Optional<Process> runFfmpeg(String outputFileName, String... inputFileNames) {
+    public Optional<Process> runFfmpeg(String outputFileName, String firstInputFileName, String... inputFileNames) {
         Null.check(outputFileName).as("outputFileName");
+        Null.check(firstInputFileName).as("firstInputFileName");
         Null.checkArray(inputFileNames).as("inputFileNames");
-        return ffmpegRunner.runFfmpeg(getFullArgList(outputFileName, inputFileNames));
+        return ffmpegRunner.runFfmpeg(getFullArgList(outputFileName, firstInputFileName, inputFileNames));
     }
 
     // CONSTRUCTORS
@@ -30,8 +31,9 @@ public final class HlsFfmpegFormatter implements FfmpegFormatter {
 
     private final FfmpegRunner ffmpegRunner;
 
-    private List<String> getFullArgList(String outputFileName, String... inputFileNames) {
+    private List<String> getFullArgList(String outputFileName, String firstInputFileName, String... inputFileNames) {
         ImmutableList.Builder<String> builder = ImmutableList.builder();
+        builder.add(INPUT_ARG).add(firstInputFileName);
         Stream.of(inputFileNames).forEach(input -> builder.add(INPUT_ARG).add(input));
         return builder
                 .addAll(DEFAULT_ARGS)

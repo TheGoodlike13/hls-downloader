@@ -15,21 +15,31 @@ import static eu.goodlike.hls.download.m3u.M3U8Defaults.M3U8_MASTER_MEDIA_TAG;
 public final class MediaTag implements HlsTag {
 
     @Override
-    public void extractDataInto(HlsBuilder builder) {
+    public void extractDataInto(HlsBuilder<?> builder) {
         Null.check(builder).as("builder");
+        if (groupId != null)
+            builder.setNextGroupId(groupId);
+
         if (name != null)
             builder.setNextPlaylistName(name);
+
+        if (rawString != null)
+            rawString.extractDataInto(builder);
     }
 
     // CONSTRUCTORS
 
-    public MediaTag(String name) {
+    public MediaTag(String groupId, String name, String uri) {
+        this.groupId = groupId;
         this.name = name;
+        this.rawString = uri == null ? null : new RawString(uri);
     }
 
     // PRIVATE
 
+    private final String groupId;
     private final String name;
+    private final RawString rawString;
 
     // OBJECT OVERRIDES
 

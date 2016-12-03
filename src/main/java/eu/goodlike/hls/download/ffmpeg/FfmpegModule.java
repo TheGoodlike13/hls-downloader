@@ -20,6 +20,10 @@ public final class FfmpegModule extends AbstractModule {
         bind(FfmpegFormatter.class)
                 .to(HlsFfmpegFormatter.class)
                 .in(Singleton.class);
+
+        bind(FfmpegProcessor.class)
+                .to(Mp4FfmpegProcessor.class)
+                .in(Singleton.class);
     }
 
     @Provides

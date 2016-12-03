@@ -2,6 +2,7 @@ package eu.goodlike.hls.download.m3u;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import eu.goodlike.hls.download.m3u.data.MediaPlaylistData;
 import eu.goodlike.hls.download.m3u.data.builder.HlsBuilder;
 import eu.goodlike.hls.download.m3u.data.builder.MediaPlaylistBuilderFactory;
 import eu.goodlike.hls.download.m3u.parse.HlsParser;
@@ -21,9 +22,7 @@ public final class MediaPlaylist implements DownloadableMediaPlaylist {
 
     @Override
     public CompletableFuture<?> download() {
-        HlsBuilder builder = mediaPlaylistBuilderFactory.createMediaPlaylistBuilder(url);
-        hlsParser.parse(url).forEach(hlsTag -> hlsTag.extractDataInto(builder));
-        return builder.build().handlePlaylistData();
+        return getMediaPlaylistData().handlePlaylistData();
     }
 
     @Override
@@ -31,6 +30,12 @@ public final class MediaPlaylist implements DownloadableMediaPlaylist {
         return Str.of(getName())
                 .andIf(resolution != null, " (", resolution, ")")
                 .toString();
+    }
+
+    public MediaPlaylistData getMediaPlaylistData() {
+        HlsBuilder<MediaPlaylistData> builder = mediaPlaylistBuilderFactory.createMediaPlaylistBuilder(url);
+        hlsParser.parse(url).forEach(hlsTag -> hlsTag.extractDataInto(builder));
+        return builder.build();
     }
 
     // CONSTRUCTORS

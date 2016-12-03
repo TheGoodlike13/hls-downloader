@@ -11,10 +11,11 @@ public interface FfmpegFormatter {
      * Spawns an ffmpeg process with given input, output and any additional params provided by the implementation
      *
      * @param outputFileName output file name
-     * @param inputFileNames input file names
+     * @param firstInputFileName input file name
+     * @param inputFileNames additional input file names
      * @return spawned ffmpeg process; {@link Optional#empty()} if process could not be spawned
-     * @throws NullPointerException if inputFileNames or outputFileName is or contains null
+     * @throws NullPointerException if outputFileName, firstInputFileName or inputFileNames is or contains null
      */
-    Optional<Process> runFfmpeg(String outputFileName, String... inputFileNames);
+    Optional<Process> runFfmpeg(String outputFileName, String firstInputFileName, String... inputFileNames);
 
 }

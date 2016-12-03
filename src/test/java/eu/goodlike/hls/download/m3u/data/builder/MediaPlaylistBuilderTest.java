@@ -21,11 +21,16 @@ public class MediaPlaylistBuilderTest {
     private static final String FILENAME = "file.txt";
 
     private final MediaPlaylistDataFactory mediaFactory = (filename, targetDuration, mediaParts) ->
-            new MediaPlaylistData(filename, targetDuration, mediaParts, null, null);
+            new MediaPlaylistData(filename, targetDuration, mediaParts, null);
+
+
+    private MediaPlaylistBuilder getMediaPlaylistBuilder(HttpUrl url) {
+        return new MediaPlaylistBuilder(url, mediaFactory);
+    }
 
     @Test
     public void createMediaPlaylist() {
-        PlaylistData testData = new MediaPlaylistBuilder(URL, mediaFactory)
+        PlaylistData testData = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION)
                 .setNextPartDuration(TARGET_DURATION)
                 .setNextString(FILENAME)
@@ -39,7 +44,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnMissingTargetDuration() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory);
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL);
 
         assertThatExceptionOfType(IllegalStateException.class)
                 .isThrownBy(() -> failBuilder.setNextPartDuration(TARGET_DURATION).build());
@@ -47,7 +52,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnDuplicateTargetDuration() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION);
 
         assertThatExceptionOfType(IllegalStateException.class)
@@ -56,7 +61,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnNoParts() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION);
 
         assertThatExceptionOfType(IllegalStateException.class)
@@ -65,7 +70,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnMultiplePartDurationsInARow() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION)
                 .setNextPartDuration(TARGET_DURATION);
 
@@ -75,7 +80,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnPartWithoutDuration() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION);
 
         assertThatExceptionOfType(IllegalStateException.class)
@@ -84,7 +89,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnDanglingDurationTag() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION)
                 .setNextPartDuration(TARGET_DURATION);
 
@@ -94,7 +99,7 @@ public class MediaPlaylistBuilderTest {
 
     @Test
     public void failOnFilenameInvalidForUrl() {
-        HlsBuilder failBuilder = new MediaPlaylistBuilder(URL, mediaFactory)
+        HlsBuilder failBuilder = getMediaPlaylistBuilder(URL)
                 .setTargetDuration(TARGET_DURATION)
                 .setNextPartDuration(TARGET_DURATION);
 

@@ -15,21 +15,26 @@ import static eu.goodlike.hls.download.m3u.M3U8Defaults.M3U8_MASTER_STREAM_INFO_
 public final class StreamInfoTag implements HlsTag {
 
     @Override
-    public void extractDataInto(HlsBuilder builder) {
+    public void extractDataInto(HlsBuilder<?> builder) {
         Null.check(builder).as("builder");
         if (resolution != null)
             builder.setNextPlaylistResolution(resolution);
+
+        if (audioStreamId != null)
+            builder.setNextAudioStreamId(audioStreamId);
     }
 
     // CONSTRUCTORS
 
-    public StreamInfoTag(String resolution) {
+    public StreamInfoTag(String resolution, String audioStreamId) {
         this.resolution = resolution;
+        this.audioStreamId = audioStreamId;
     }
 
     // PRIVATE
 
     private final String resolution;
+    private final String audioStreamId;
 
     // OBJECT OVERRIDES
 

@@ -3,6 +3,7 @@ package eu.goodlike.hls.download.m3u.data.builder;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import eu.goodlike.hls.download.m3u.data.MasterPlaylistData;
 import eu.goodlike.hls.download.m3u.data.MediaPart;
 import eu.goodlike.hls.download.m3u.data.MediaPlaylistData;
 import eu.goodlike.hls.download.m3u.data.MediaPlaylistDataFactory;
@@ -22,30 +23,40 @@ import static eu.goodlike.validate.Validate.bigDecimal;
 /**
  * Implementation of {@link HlsBuilder} for building {@link MediaPlaylistData}
  */
-public final class MediaPlaylistBuilder extends AbstractHlsBuilder {
+public final class MediaPlaylistBuilder extends AbstractHlsBuilder<MediaPlaylistData> {
 
     @Override
-    public HlsBuilder setTargetDuration(BigDecimal targetDuration) {
+    public HlsBuilder<MediaPlaylistData> setTargetDuration(BigDecimal targetDuration) {
         trySetTargetDuration(targetDuration);
         return this;
     }
 
     @Override
-    public HlsBuilder setNextPartDuration(BigDecimal nextPartDuration) {
+    public HlsBuilder<MediaPlaylistData> setNextPartDuration(BigDecimal nextPartDuration) {
         trySetNextPartDuration(nextPartDuration);
         return this;
     }
 
     @Override
-    public HlsBuilder setNextUrl(HttpUrl url) {
+    public HlsBuilder<MediaPlaylistData> setNextUrl(HttpUrl url) {
         trySetNextPartUrl(url);
         return this;
     }
 
     @Override
-    public HlsBuilder setNextString(String string) {
+    public HlsBuilder<MediaPlaylistData> setNextString(String string) {
         trySetNextPartFilename(string);
         return this;
+    }
+
+    @Override
+    public HlsBuilder<MasterPlaylistData> setNextGroupId(String groupId) {
+        throw new IllegalStateException("Invalid media playlist: master playlist tag found");
+    }
+
+    @Override
+    public HlsBuilder<MasterPlaylistData> setNextAudioStreamId(String groupId) {
+        throw new IllegalStateException("Invalid media playlist: master playlist tag found");
     }
 
     @Override
@@ -54,12 +65,12 @@ public final class MediaPlaylistBuilder extends AbstractHlsBuilder {
     }
 
     @Override
-    public HlsBuilder setNextPlaylistName(String nextPlaylistName) {
+    public HlsBuilder<MasterPlaylistData> setNextPlaylistName(String nextPlaylistName) {
         throw new IllegalStateException("Invalid media playlist: master playlist tag found");
     }
 
     @Override
-    public HlsBuilder setNextPlaylistResolution(String nextPlaylistResolution) {
+    public HlsBuilder<MasterPlaylistData> setNextPlaylistResolution(String nextPlaylistResolution) {
         throw new IllegalStateException("Invalid media playlist: master playlist tag found");
     }
 
@@ -108,7 +119,7 @@ public final class MediaPlaylistBuilder extends AbstractHlsBuilder {
     private void trySetNextPartFilename(String filename) {
         Null.check(filename).as("filename");
         NOT_BLANK.ifInvalid(filename)
-                .thenThrow(() -> new AssertionError("Programming error: attempted to set blank part name"));
+                .thenThrow(() -> new IllegalStateException("Invalid media playlist: filename cannot be blank"));
 
         HttpUrl resolvedUrl = getSourceLocation().resolve(filename);
         if (resolvedUrl == null)

@@ -1,8 +1,7 @@
 package eu.goodlike.hls.download.m3u.data;
 
 import com.google.common.collect.ImmutableList;
-import eu.goodlike.cmd.ProcessHookAttacher;
-import eu.goodlike.hls.download.ffmpeg.FfmpegFormatter;
+import eu.goodlike.hls.download.ffmpeg.FfmpegProcessor;
 import okhttp3.HttpUrl;
 import org.junit.After;
 import org.junit.Before;
@@ -14,10 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MediaPlaylistDataTest {
 
@@ -26,22 +22,17 @@ public class MediaPlaylistDataTest {
     private static final HttpUrl URL = HttpUrl.parse("https://localhost:8080/");
     private static final List<MediaPart> MEDIA_PARTS = ImmutableList.of(new MediaPart(TARGET_DURATION, URL));
 
-    private FfmpegFormatter ffmpegFormatter;
-    private ProcessHookAttacher processHookAttacher;
+    private FfmpegProcessor ffmpegProcessor;
     private MediaPlaylistData mediaPlaylistData;
 
     @Before
     public void setUp() {
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        ffmpegFormatter = Mockito.mock(FfmpegFormatter.class);
-        processHookAttacher = new ProcessHookAttacher(executorService, executorService);
-        mediaPlaylistData = new MediaPlaylistData(FILENAME, TARGET_DURATION, MEDIA_PARTS, ffmpegFormatter, processHookAttacher);
+        ffmpegProcessor = Mockito.mock(FfmpegProcessor.class);
+        mediaPlaylistData = new MediaPlaylistData(FILENAME, TARGET_DURATION, MEDIA_PARTS, ffmpegProcessor);
     }
 
     @After
     public void tearDown() throws Exception {
-        processHookAttacher.close();
-
         Path path = Paths.get(FILENAME);
         if (Files.exists(path))
             Files.delete(path);
@@ -49,16 +40,12 @@ public class MediaPlaylistDataTest {
 
     @Test
     public void correctFfmpegCallMade() throws InterruptedException {
-        Process process = Mockito.mock(Process.class);
-        Mockito.when(process.waitFor()).thenReturn(0);
+        Mockito.when(ffmpegProcessor.processFfmpeg(FILENAME, FILENAME))
+                .thenReturn(CompletableFuture.completedFuture(null));
 
-        Mockito.when(ffmpegFormatter.runFfmpeg("stream.mp4", FILENAME))
-                .thenReturn(Optional.of(process));
+        mediaPlaylistData.handlePlaylistData().join();
 
-        CompletableFuture<?> doneHandlingMediaPlaylist = mediaPlaylistData.handlePlaylistData();
-        doneHandlingMediaPlaylist.join();
-
-        Mockito.verify(ffmpegFormatter).runFfmpeg("stream.mp4", FILENAME);
+        Mockito.verify(ffmpegProcessor).processFfmpeg(FILENAME, FILENAME);
     }
 
 }

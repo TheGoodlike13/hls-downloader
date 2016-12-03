@@ -60,4 +60,16 @@ public class StreamingHlsParserTest {
                 .containsExactly(targetDurationTag, streamPartDurationTag, urlTag);
     }
 
+    @Test
+    public void parsingOfInvalidHlsDurationTag() {
+        StreamPartDurationTag streamPartDurationTag = new StreamPartDurationTag(BigDecimal.ONE);
+
+        String streamDurationTagWithoutComma = "#EXTINF:1";
+
+        Mockito.when(httpStreamer.getStream(URL)).thenReturn(streamFromString(streamDurationTagWithoutComma));
+
+        assertThat(hlsParser.parse(URL))
+                .containsExactly(streamPartDurationTag);
+    }
+
 }

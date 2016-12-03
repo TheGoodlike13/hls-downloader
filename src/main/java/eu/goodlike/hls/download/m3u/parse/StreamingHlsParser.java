@@ -87,7 +87,7 @@ public final class StreamingHlsParser implements HlsParser {
     private Optional<HlsTag> parsePartDurationTag(String tag) {
         int endIndex = tag.indexOf(',');
         if (endIndex < 0)
-            throw new IllegalStateException(Str.format("Could not parse '{}' tag: {}", M3U8_MEDIA_PART_DURATION, tag));
+            endIndex = tag.length();
 
         String value = tag.substring(M3U8_MEDIA_PART_DURATION.length(), endIndex);
         return Optional.of(value).map(BigDecimal::new).map(StreamPartDurationTag::new);

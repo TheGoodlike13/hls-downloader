@@ -25,7 +25,7 @@ public final class MediaPlaylistData implements PlaylistData {
     @Override
     public CompletableFuture<?> handlePlaylistData() {
         return writePlaylistToFile()
-                .thenApply(actualPlaylistName -> ffmpegProcessor.processFfmpeg(actualPlaylistName, actualPlaylistName));
+                .thenCompose(actualPlaylistName -> ffmpegProcessor.processFfmpeg(actualPlaylistName, actualPlaylistName));
     }
 
     public CompletableFuture<String> writePlaylistToFile() {

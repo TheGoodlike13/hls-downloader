@@ -3,9 +3,11 @@ package eu.goodlike.hls.download.m3u.data;
 import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import eu.goodlike.functional.Futures;
 import eu.goodlike.hls.download.ffmpeg.FfmpegProcessor;
 import eu.goodlike.neat.Null;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -16,10 +18,8 @@ public final class MultiMediaPlaylistData implements PlaylistData {
 
     @Override
     public CompletableFuture<?> handlePlaylistData() {
-        String videoFilename = getFilename(videoData);
-        String audioFilename = getFilename(audioData);
-
-        return ffmpegProcessor.processFfmpeg(videoFilename, videoFilename, audioFilename);
+        return Futures.allOf(videoData.writePlaylistToFile(), audioData.writePlaylistToFile())
+                .thenCompose(this::processPlaylist);
     }
 
     // CONSTRUCTORS
@@ -43,8 +43,10 @@ public final class MultiMediaPlaylistData implements PlaylistData {
 
     private final FfmpegProcessor ffmpegProcessor;
 
-    private String getFilename(MediaPlaylistData data) {
-        return data.writePlaylistToFile().join();
+    private CompletableFuture<?> processPlaylist(List<String> filenames) {
+        String videoFilename = filenames.get(0);
+        String audioFilename = filenames.get(1);
+        return ffmpegProcessor.processFfmpeg(videoFilename, videoFilename, audioFilename);
     }
 
     // OBJECT OVERRIDES

@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     // I DID IT! PRAISE THE REPOSITORY!
-    compile 'eu.goodlike:goodlike-utils:0.0.38'
+    compile 'eu.goodlike:goodlike-utils:0.0.39'
 
     // used for command line argument parsing
     compile 'net.sourceforge.argparse4j:argparse4j:0.7.0'
@@ -66,7 +66,7 @@ dependencies {
 }
 
 group 'eu.goodlike'
-version '0.5'
+version '0.6'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'

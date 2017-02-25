@@ -11,3 +11,12 @@ Likely doesn't support everything, but should work for most simple cases
 2. Put this code somewhere
 3. Run "gradlew shadowJar" in that folder
 4. Take all the files from "copy" folder and run "hlsDL {insert_url_of_playlist_here}"
+
+## Future
+
+While I am only ~90% happy with the design, since I did learn from it, I'm gonna call it a day and
+move to the next project. It was not too difficult to add separate audio/video streams, for example.
+If you're interested in what I'd do differently, feel free to ask (although I cannot guarantee that
+it would be better :D)
+
+If I encounter a bug I'll try to fix it, though. I'll use this myself from time to time, after all.

@@ -29,7 +29,7 @@ public class HlsFfmpegFormatterTest {
     public void ffmpegParamsAreCorrectlyFormatted() {
         Process process = Mockito.mock(Process.class);
         List<String> expectedInput = ImmutableList.of(
-                "-i", VIDEO_INPUT_FILE, "-i", AUDIO_INPUT_FILE, "-bsf:a", "aac_adtstoasc", "-c", "copy", OUTPUT_FILE
+                "-protocol_whitelist", "file,tcp,http", "-i", VIDEO_INPUT_FILE, "-i", AUDIO_INPUT_FILE, "-bsf:a", "aac_adtstoasc", "-c", "copy", OUTPUT_FILE
         );
 
         Mockito.when(ffmpegRunner.runFfmpeg(expectedInput))

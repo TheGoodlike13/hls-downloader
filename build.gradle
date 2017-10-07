@@ -69,7 +69,7 @@ dependencies {
 }
 
 group 'eu.goodlike'
-version '0.7'
+version '0.8'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'

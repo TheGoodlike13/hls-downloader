@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="hls-downloader" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="eu.goodlike" external.system.module.version="0.7" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../build/classes/main" />
-    <output-test url="file://$MODULE_DIR$/../../build/classes/test" />
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../out/production/classes" />
+    <output-test url="file://$MODULE_DIR$/../../out/test/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../..">
       <sourceFolder url="file://$MODULE_DIR$/../../src/gen/java" isTestSource="false" />
@@ -13,35 +13,103 @@
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="library" name="Gradle: eu.goodlike:goodlike-utils:0.0.40" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.inject.extensions:guice-assistedinject:4.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-all:2.0.2-beta" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: eu.goodlike:goodlike-utils:0.0.48" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: net.sourceforge.argparse4j:argparse4j:0.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.inject.extensions:guice-assistedinject:4.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.inject:guice:4.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.guava:guava:23.1-jre" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.apache.commons:commons-lang3:3.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-io:commons-io:2.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.squareup.okhttp3:okhttp-urlconnection:3.9.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jsoup:jsoup:1.10.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.cache2k:cache2k-core:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.cache2k:cache2k-api:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: ch.qos.logback:logback-classic:1.2.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.github.ben-manes.caffeine:caffeine:2.5.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.thoughtworks.paranamer:paranamer:2.8" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: ch.qos.logback:logback-core:1.2.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: eu.goodlike:goodlike-utils:0.0.48" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.sourceforge.argparse4j:argparse4j:0.8.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.inject.extensions:guice-assistedinject:4.1.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.inject:guice:4.1.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.guava:guava:23.1-jre" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.commons:commons-lang3:3.6" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-io:commons-io:2.5" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okhttp3:okhttp-urlconnection:3.9.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jsoup:jsoup:1.10.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.cache2k:cache2k-core:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.cache2k:cache2k-api:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: ch.qos.logback:logback-classic:1.2.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.github.ben-manes.caffeine:caffeine:2.5.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.thoughtworks.paranamer:paranamer:2.8" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: ch.qos.logback:logback-core:1.2.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: eu.goodlike:goodlike-utils:0.0.48" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: net.sourceforge.argparse4j:argparse4j:0.8.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.inject.extensions:guice-assistedinject:4.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.inject:guice:4.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.guava:guava:23.1-jre" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.apache.commons:commons-lang3:3.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: commons-io:commons-io:2.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.squareup.okhttp3:okhttp-urlconnection:3.9.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.squareup.okhttp3:okhttp:3.9.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jsoup:jsoup:1.10.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.cache2k:cache2k-core:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.cache2k:cache2k-api:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.module:jackson-module-paranamer:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: ch.qos.logback:logback-classic:1.2.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
-    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7" level="project" />
-    <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.9.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.inject:guice:4.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.cache2k:cache2k-core:0.28-BETA" level="project" />
-    <orderEntry type="library" name="Gradle: org.cache2k:cache2k-api:0.28-BETA" level="project" />
-    <orderEntry type="library" name="Gradle: org.jsoup:jsoup:1.9.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp-urlconnection:3.4.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.4.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.guava:guava:20.0" level="project" />
-    <orderEntry type="library" name="Gradle: net.sourceforge.argparse4j:argparse4j:0.7.0" level="project" />
-    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.8.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.8.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.ben-manes.caffeine:caffeine:2.3.5" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.assertj:assertj-core:3.6.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.assertj:assertj-core:3.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-all:2.0.2-beta" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.ben-manes.caffeine:caffeine:2.5.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.thoughtworks.paranamer:paranamer:2.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: ch.qos.logback:logback-core:1.2.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
   </component>
 </module>

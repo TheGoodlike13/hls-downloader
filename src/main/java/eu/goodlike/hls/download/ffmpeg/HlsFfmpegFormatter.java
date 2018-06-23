@@ -33,7 +33,7 @@ public final class HlsFfmpegFormatter implements FfmpegFormatter {
 
     private List<String> getFullArgList(String outputFileName, String firstInputFileName, String... inputFileNames) {
         ImmutableList.Builder<String> builder = ImmutableList.builder();
-        builder.addAll(ENSURE_HTTP_ALLOWED_ARGS);
+        builder.addAll(PROTOCOLS_USED_BY_HLS);
         builder.add(INPUT_ARG).add(firstInputFileName);
         Stream.of(inputFileNames).forEach(input -> builder.add(INPUT_ARG).add(input));
         return builder
@@ -42,7 +42,7 @@ public final class HlsFfmpegFormatter implements FfmpegFormatter {
                 .build();
     }
 
-    private static final List<String> ENSURE_HTTP_ALLOWED_ARGS = ImmutableList.of("-protocol_whitelist", "file,tcp,http");
+    private static final List<String> PROTOCOLS_USED_BY_HLS = ImmutableList.of("-protocol_whitelist", "file,tcp,http,https,tls");
     private static final String INPUT_ARG = "-i";
     private static final List<String> DEFAULT_ARGS = ImmutableList.of("-bsf:a", "aac_adtstoasc", "-c", "copy");
 
